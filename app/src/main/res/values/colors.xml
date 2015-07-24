@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#ff418326</color>
+    <color name="label_color">#353F49</color>
+    <color name="secondary_color">#ff00a457</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="divider_color">#ff506070</color>
+</resources>
