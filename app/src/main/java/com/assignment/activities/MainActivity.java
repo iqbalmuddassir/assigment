@@ -5,7 +5,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements CommonListeners.A
 
     // populate the lunch and dinner food items
     private void populateFoodItems() {
-        long start = System.currentTimeMillis();
+        // add food items to lunch and dinner
         lunchItems.add(new FoodItem(0, "Paneer Butter Masala", "Butter Paneer Masala with Raita " +
                 "and Butter Naan", 0, 150, true, "Lunch",
                 new int[]{R.mipmap.lunch_4, R.mipmap.lunch_5, R.mipmap.lunch_6}
@@ -66,10 +65,10 @@ public class MainActivity extends AppCompatActivity implements CommonListeners.A
                 new int[]{R.mipmap.dinner_4, R.mipmap.dinner_5, R.mipmap.dinner_6}
                 , new Chef(0, "Anuj Gupta", 1.25f, R.mipmap.ic_launcher)));
 
+        // initialise and set the adapter
         foodAdapter = new FoodAdapter(lunchItems, MainActivity.this, R.layout.food_item_row);
         foodAdapter.setAmountUpdateListener(this);
         recyclerFoodList.setAdapter(foodAdapter);
-        Log.v("Time Taken", String.valueOf((System.currentTimeMillis() - start)));
     }
 
     // Initialise all the UI components
@@ -119,10 +118,10 @@ public class MainActivity extends AppCompatActivity implements CommonListeners.A
                 updateLocation();
                 break;
             case R.id.lunch_tab:
-                toggleView(lunchItems, lunchTabLayout, dinnerTabLayout, true);
+                toggleView(lunchItems, lunchTabLayout, dinnerTabLayout);
                 break;
             case R.id.dinner_tab:
-                toggleView(dinnerItems, dinnerTabLayout, lunchTabLayout, false);
+                toggleView(dinnerItems, dinnerTabLayout, lunchTabLayout);
                 break;
         }
     }
@@ -159,9 +158,8 @@ public class MainActivity extends AppCompatActivity implements CommonListeners.A
      * @param foodItems is the food item array
      * @param focused   is the focused layout
      * @param unFocused is the unFocused layout
-     * @param isLunch   if tap is on lunch tab
      */
-    private void toggleView(ArrayList<FoodItem> foodItems, LinearLayout focused, LinearLayout unFocused, boolean isLunch) {
+    private void toggleView(ArrayList<FoodItem> foodItems, LinearLayout focused, LinearLayout unFocused) {
         focused.setBackgroundResource(R.drawable.focussed_background);
         unFocused.setBackgroundResource(R.color.white);
         foodAdapter.setFoodItems(foodItems);
@@ -187,6 +185,6 @@ public class MainActivity extends AppCompatActivity implements CommonListeners.A
 
     // this will update the location text field
     private void updateLocation() {
-        locationLabel.setText(getString(R.string.current_location));
+        locationLabel.setText(getString(R.string.delhi));
     }
 }

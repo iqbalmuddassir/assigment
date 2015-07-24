@@ -29,8 +29,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     /**
      * the cunstructor to initialise the recycler view adapter
+     *
      * @param foodItems is array of food items
-     * @param activity is the activity to which it is to be attached
+     * @param activity  is the activity to which it is to be attached
      * @param rowLayout is the layout which is to be inflated
      */
     public FoodAdapter(ArrayList<FoodItem> foodItems, Activity activity, int rowLayout) {
@@ -48,11 +49,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         FoodItem foodItem = foodItems.get(position);
+
+        // set the chef image
         Picasso.with(activity)
                 .load(foodItem.getChef().getChefImage())
                 .fit()
                 .placeholder(R.mipmap.ic_chef)
                 .into(viewHolder.chefImage);
+
+        // set all the food images
         Picasso.with(activity)
                 .load(foodItem.getImages()[0])
                 .fit()
@@ -66,19 +71,24 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                 .fit()
                 .into(viewHolder.imageThree);
 
+        // set the veg or no-veg indicator
         if (foodItem.isVeg()) {
             viewHolder.imageType.setImageResource(R.mipmap.veg);
         } else {
             viewHolder.imageType.setImageResource(R.mipmap.non_veg);
         }
 
+        // set the chef details
         viewHolder.chefName.setText(foodItem.getChef().getChefName());
+        viewHolder.rating.setRating(foodItem.getChef().getRating());
+
+        // set the details of the food item
         viewHolder.amount.setText(String.valueOf(foodItem.getRate()));
         viewHolder.itemName.setText(foodItem.getDishName());
         viewHolder.itemDescription.setText(foodItem.getDescription());
-        viewHolder.rating.setRating(foodItem.getChef().getRating());
         viewHolder.quantity.setText(String.valueOf(foodItem.getQuantity()));
 
+        // add increment button onClick listener
         viewHolder.incrementBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,11 +98,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                 amountUpdateListener.updateAmount();
             }
         });
+
+        // add decrement button onClick listener
         viewHolder.decrementBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FoodItem foodItem = foodItems.get(position);
-                if (foodItem.getQuantity() > 0) {
+                if (foodItem.getQuantity() > 0) { // decrement only if quantity is greater than zero
                     foodItem.setQuantity(foodItem.getQuantity() - 1);
                     viewHolder.quantity.setText(String.valueOf(foodItem.getQuantity()));
                     amountUpdateListener.updateAmount();
@@ -108,6 +120,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     /**
      * set the array of food items
+     *
      * @param foodItems is the array of food items to be displayed
      */
     public void setFoodItems(ArrayList<FoodItem> foodItems) {
@@ -144,6 +157,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     /**
      * this will set the amount update listener to this adapter
+     *
      * @param amountUpdateListener the listener
      */
     public void setAmountUpdateListener(CommonListeners.AmountUpdateListener amountUpdateListener) {
